@@ -1,0 +1,30 @@
+<h1>Post</h1>
+<div class ="row">
+  <div class="col-md-6">
+    <select class="form-control" (change)="onchange($event)">
+      <option value="">Select a user...</option>
+       <option  *ngFor="let user of users" value="{{user.id}}">{{user.name}}</option>
+    </select>
+    <app-spinner [visible]="isLoading"></app-spinner>
+    <app-pagination [items]="results" [pageSize]= "pageSize" (pageChanged)="onPageChanged($event)"></app-pagination>
+    <ul class="list-group">
+      <li *ngFor="let result of pagedPosts"class="list-group-item" [class.active]="currentPost == result" (click) ="onClick(result)">{{result.title}}</li>
+    </ul>
+  </div>
+  <div class="col-md-6" *ngIf="currentPost">
+    <div class="panel-group">
+      <div class="panel panel-default">
+        <div class="panel-heading">{{currentPost.title}}</div>
+        <div class="panel-body">{{currentPost.body}}</div>
+      </div>
+    </div>
+    <app-spinner [visible]="commentsLoading"></app-spinner>
+    <div class="media" *ngFor="let comment of currentPost.comments">
+      <img class="d-flex mr-3" src="http://lorempixel.com/80/80/people?random={{ comment.id }}" alt="Generic placeholder image">
+      <div class="media-body">
+        <h5 class="mt-0">{{ comment.name }}</h5>
+        {{ comment.body }}
+      </div>
+    </div>
+  </div>
+</div>
